@@ -2,6 +2,7 @@ const express=require('express')
 const Post=require('../models/post')
 const router = express.Router()
 
+
 // get all the posts
 router.get('/',async (req,res)=>{
   try{
@@ -34,7 +35,16 @@ router.delete('/:postId',async(req,res)=>{
 })
 
 ///update a post 
-
+router.patch('/:postId',async (req,res)=>{
+    try{
+      const updatePost=await Post.updateOne({_id:req.params.postId},{
+          $set :{title : req.body.title}
+        })
+        res.json({message:"Post update successfully"})
+    }catch(err){
+        res.json({message:err})
+    }
+})
 
  //submit post
 router.post('/',async (req,res)=>{
